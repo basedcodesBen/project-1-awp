@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('name');
-            $table->date('birthdate');
-            $table->string('gender');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 

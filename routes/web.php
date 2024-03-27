@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UnivUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('starter');
 });
+
+Route::get('uuser', [UnivUserController::class, 'index'])-> name('uuser-index');
+Route::get('uuser-create', [UnivUserController::class, 'create'])->name('uuser-create');
+Route::post('uuser-store', [UnivUserController::class, 'store'])->name('uuser-store');

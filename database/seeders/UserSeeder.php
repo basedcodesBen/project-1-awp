@@ -18,8 +18,6 @@ class UserSeeder extends Seeder
             'name' => 'Ravel Setiady',
             'email' => '2272003@maranatha.ac.id',
             'password' => bcrypt('stdy'),
-            'gender' => 'Men',
-            'birthdate' => '24/11/04',
             'id_prodi' =>  '72',
             'id_role' => '3'
         ]);
