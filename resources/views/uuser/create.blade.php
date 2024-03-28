@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin.master')
 
 @section('web-content')
     <!-- Content Header (Page header) -->
@@ -10,8 +10,9 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="uuser">Users</a></li>
+              <li class="breadcrumb-item active">Add User</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -37,8 +38,12 @@
                         <input type="text" class="form-control" id="uuser-nrp" placeholder="Contoh: 2272013" name="nrp" required autofocus maxlength="7">
                     </div>
                     <div class="form-group">
-                        <label for="uuser-idrole">ID Role</label>
-                        <input type="text" class="form-control" id="uuser-idrole" placeholder="Contoh: 3" name="id_role" required maxlength="1">
+                      <label>Role</label>
+                      <select class="form-control select2" style="width: 100%;" name="role">
+                        <option selected="selected" value="user">User</option>
+                        <option value="prodi">Prodi</option>
+                        <option value="admin">Admin</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="uuser-idprodi">ID Prodi</label>

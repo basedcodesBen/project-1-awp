@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => '2272003@maranatha.ac.id',
             'password' => bcrypt('stdy'),
             'id_prodi' =>  '72',
-            'id_role' => '3'
+            'role' => 'Admin',
         ]);
     }
 }
