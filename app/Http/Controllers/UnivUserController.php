@@ -19,7 +19,8 @@ class UnivUserController extends Controller
 
     public function create()
     {
-        return view('uuser.create');
+        $programs = ProgramStudi::all(); // Get all programs
+        return view('uuser.create', compact('programs'));
     }
 
     /**
@@ -60,19 +61,48 @@ class UnivUserController extends Controller
         //
     }
 
+
+    public function edit(UnivUser $uuser)
+    {
+        $programs = ProgramStudi::all(); // Get all programs
+        return view('uuser.edit', ['user' => $uuser], compact('programs'));
+        // return view('uuser.edit', [
+        //     'user' => $uuser,
+        //     'programs' => $programs
+        // ]);
+    }
+    
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, UnivUser $uuser)
     {
-        //
+        $validatedData = validator($request->all(), [
+            'role' => 'required|string|max:10',
+            'id_prodi' => 'required|string|max:2|exists:program_studi,id_prodi',
+            'password' => 'required|string|max:10',
+            'email'=> 'string|max:255',
+            'name' => 'required|string|max:255',
+        ], [
+            'role_required' => 'Role harus diisi!',
+            'id_prodi_required' => 'ID Prodi harus diisi!',
+            'password' => 'Password harus diisi!',
+            'name' => 'Nama harus diisi!',
+        ])->validate();
+
+        // dd($validatedData);
+        // UnivUser::create($validatedData);
+        $uuser->update($validatedData);
+        return redirect(route('uuser-index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(UnivUser $uuser)
     {
-        //
+        $uuser->delete();
+        return redirect(route('uuser-index'));
     }
 }

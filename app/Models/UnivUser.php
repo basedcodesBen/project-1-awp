@@ -21,6 +21,8 @@ class UnivUser extends Model
         'role',
     ];
 
+    protected $primaryKey = 'nrp';
+
     public function setPasswordAttribute($value){
         $this->attributes['password'] = bcrypt($value);
     }

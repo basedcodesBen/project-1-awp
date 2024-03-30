@@ -15,4 +15,6 @@ class ProgramStudi extends Model
         'id_prodi',
         'nama_prodi',
     ];
+
+    protected $primaryKey = 'id_prodi';
 }

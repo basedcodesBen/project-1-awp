@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Tambah User</h1>
+            <h1 class="m-0">Edit User: {{ $user->name }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -30,13 +30,13 @@
                   </div>
               @endif
         <div class="card p-4">
-            <form method="post" action="{{ route('uuser-store') }}">
+            <form method="post" action="{{ route('uuser-update', ['uuser' => $user->nrp]) }}">
                 @csrf
                 <div class="card-body">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="uuser-nrp">NRP</label>
                         <input type="text" class="form-control" id="uuser-nrp" placeholder="Contoh: 2272013" name="nrp" required autofocus maxlength="7">
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                       <label>Role</label>
                       <select class="form-control select2" style="width: 100%;" name="role" required>
