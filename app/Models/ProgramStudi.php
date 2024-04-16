@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,4 +15,6 @@ class ProgramStudi extends Model
         'id_prodi',
         'nama_prodi',
     ];
+
+    protected $primaryKey = 'id_prodi';
 }

@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->char('nrp')->primary();
-            $table->string('id_role');
-            $table->foreign('id_role')->references('id_role')->on('role');
+            $table->string('role');
             $table->string('id_prodi');
             $table->foreign('id_prodi')->references('id_prodi')->on('program_studi');
             $table->string('password');
             $table->string('email')->unique();
             $table->string('name');
-            $table->date('birthdate');
-            $table->string('gender');
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
