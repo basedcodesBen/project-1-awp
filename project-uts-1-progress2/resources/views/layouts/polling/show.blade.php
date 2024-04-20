@@ -45,7 +45,7 @@
                         </div>
                     @endforeach --}}
                     @foreach ($polls as $poll)
-                        <h3><a href="{{ route('poll.details', $poll->id_polling) }}">{{ $poll->judul_polling }}</a></h3>
+                        <a href="{{ route('poll.details', $poll->id_polling) }}" class="btn btn-block btn-primary btn-lg">{{ $poll->judul_polling }}</a>
                     @endforeach
                 @else
                     <p>No polls available.</p>

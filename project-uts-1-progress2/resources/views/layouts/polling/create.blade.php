@@ -37,8 +37,7 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="id_polling">Poll ID</label>
-                        <input type="text" name="id_polling" id="id_polling" class="form-control" value="{{ $nextPollId }}" readonly>
+                        <input type="hidden" name="id_polling" id="id_polling" class="form-control" value="{{ $nextPollId }}" readonly>
                     </div>
                     <div class="form-group">
                         <label for="judul_polling">Title</label>
@@ -52,7 +51,7 @@
                         <label for="tgl_selesai">End Date</label>
                         <input type="date" name="tgl_selesai" id="tgl_selesai" class="form-control" required>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Select Subjects</label><br>
                         @foreach ($mataKuliahs as $matkul)
                             <div class="form-check">
@@ -60,7 +59,7 @@
                                 <label class="form-check-label" for="{{ $matkul->kode_matkul }}">{{ $matkul->nama_matkul }}</label>
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Create Poll</button>

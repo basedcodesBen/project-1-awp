@@ -22,9 +22,9 @@ class PollingController extends Controller
     public function createForm()
     {
         $nextPollId = $this->getNextPollId();
-        $mataKuliahs = MataKuliah::all();
+        // $mataKuliahs = MataKuliah::all();
         
-        return view('layouts.polling.create', compact('nextPollId', 'mataKuliahs'));
+        return view('layouts.polling.create', compact('nextPollId'));
     }
 
     /**
@@ -53,8 +53,6 @@ class PollingController extends Controller
              'judul_polling' => 'required',
              'tgl_mulai' => 'required|date',
              'tgl_selesai' => 'required|date|after:tgl_mulai',
-             'mata_kuliahs' => 'required|array',
-             'mata_kuliahs.*' => 'exists:mata_kuliah,kode_matkul',
          ]);
      
          // Get the next available id_polling value
@@ -77,9 +75,9 @@ class PollingController extends Controller
              $poll->save();
      
              // Attach selected subjects to the poll
-             foreach ($validatedData['mata_kuliahs'] as $kode_matkul) {
-                 $poll->mataKuliah()->attach($kode_matkul, ['nrp' => $nrp]);
-             }
+            //  foreach ($validatedData['mata_kuliahs'] as $kode_matkul) {
+            //      $poll->mataKuliah()->attach($kode_matkul, ['nrp' => $nrp]);
+            //  }
      
              // Commit the transaction
              DB::commit();
@@ -130,13 +128,11 @@ class PollingController extends Controller
             return view('layouts.polling.poll-details-prodi', compact('subjects', 'poll'));
         } else {
             // Display the form for students to fill out the polling
-                $nrpProdi = PollingDetail::where('id_polling', $id)->pluck('nrp');
-                $subjects = PollingDetail::where('id_polling', $id)
-                            ->where('nrp', $nrpProdi)
-                            ->pluck('kode_matkul');
-                dd($subjects);
+            $poll = Polling::find($id);
+            $matkul = MataKuliah::all(); // Assuming you have a Subject model
+            return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
         
-            return view('layouts.polling.poll-details', compact('subjects', 'id', 'poll'));
+            // return view('layouts.polling.poll-details', compact('subjects', 'id', 'poll'));
         }
     }
 
