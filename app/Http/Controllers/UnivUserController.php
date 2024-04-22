@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UnivUser;
+use App\Models\User;
 use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
 
@@ -13,14 +13,14 @@ class UnivUserController extends Controller
      */
     public function index()
     {
-        $data = UnivUser::all();
-        return view("uuser.index", ['users' => $data]);
+        $data = User::all();
+        return view("layouts.user.index", ['users' => $data]);
     }
 
     public function create()
     {
         $programs = ProgramStudi::all(); // Get all programs
-        return view('uuser.create', compact('programs'));
+        return view('layouts.user.create', compact('programs'));
     }
 
     /**
@@ -47,10 +47,10 @@ class UnivUserController extends Controller
         ])->validate();
 
         // dd($validatedData);
-        // UnivUser::create($validatedData);
-        $uuser = new UnivUser ($validatedData);
-        $uuser->save();
-        return redirect(route('uuser-index'));
+        // User::create($validatedData);
+        $user = new User ($validatedData);
+        $user->save();
+        return redirect(route('user-index'));
     }
 
     /**
@@ -62,12 +62,12 @@ class UnivUserController extends Controller
     }
 
 
-    public function edit(UnivUser $uuser)
+    public function edit(User $user)
     {
         $programs = ProgramStudi::all(); // Get all programs
-        return view('uuser.edit', ['user' => $uuser], compact('programs'));
-        // return view('uuser.edit', [
-        //     'user' => $uuser,
+        return view('layouts.user.edit', ['user' => $user], compact('programs'));
+        // return view('user.edit', [
+        //     'user' => $user,
         //     'programs' => $programs
         // ]);
     }
@@ -76,7 +76,7 @@ class UnivUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UnivUser $uuser)
+    public function update(Request $request, User $user)
     {
         $validatedData = validator($request->all(), [
             'role' => 'required|string|max:10',
@@ -92,17 +92,22 @@ class UnivUserController extends Controller
         ])->validate();
 
         // dd($validatedData);
-        // UnivUser::create($validatedData);
-        $uuser->update($validatedData);
-        return redirect(route('uuser-index'));
+        // User::create($validatedData);
+        $user->update($validatedData);
+        return redirect(route('user-index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UnivUser $uuser)
+    public function destroy(User $user)
     {
-        $uuser->delete();
-        return redirect(route('uuser-index'));
+        $user->delete();
+        return redirect(route('user-index'));
+    }
+
+    public function dashTemp()
+    {
+        return view('pages.admin.dashboard');
     }
 }

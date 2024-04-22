@@ -13,13 +13,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users') -> insert([
+        \App\Models\User::factory()->create([
             'nrp' => '2272003',
             'name' => 'Ravel Setiady',
             'email' => '2272003@maranatha.ac.id',
-            'password' => bcrypt('stdy'),
+            'password' => 'stdy',
             'id_prodi' =>  '72',
-            'role' => 'Admin',
+            'role' => 'admin',
         ]);
     }
 }

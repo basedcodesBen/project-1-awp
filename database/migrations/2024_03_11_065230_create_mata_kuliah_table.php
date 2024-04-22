@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('tahun_kurikulum')->references('tahun_kurikulum')->on('kurikulum');
             $table->string('nama_matkul');
             $table->integer('jumlah_sks');
+            $table->timestamps();
         });
     }
 

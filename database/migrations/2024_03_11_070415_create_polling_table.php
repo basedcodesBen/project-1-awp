@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('polling', function (Blueprint $table) {
-            $table->string('id_polling')->primary();
+            $table->bigIncrements('id_polling');
             $table->string('judul_polling');
             $table->dateTime('tgl_mulai');
             $table->dateTime('tgl_selesai');
             $table->string('status');
+            $table->timestamps();
         });
     }
 

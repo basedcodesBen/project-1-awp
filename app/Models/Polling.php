@@ -17,4 +17,19 @@ class Polling extends Model
         'tgl_selesai',
         'status',
     ];
+
+    protected $primaryKey = 'id_polling';
+
+    public function pollingDetails()
+    {
+        return $this->hasMany(PollingDetail::class, 'id_polling');
+    }
+
+    public function mataKuliah()
+    {
+        return $this->belongsToMany(MataKuliah::class, 'polling_detail', 'id_polling', 'kode_matkul')
+                    ->withPivot('nrp'); // Include additional pivot table columns
+    }
+
+    
 }

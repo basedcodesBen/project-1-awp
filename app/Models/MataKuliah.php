@@ -13,7 +13,14 @@ class MataKuliah extends Model
 
     protected $fillable = [
         'kode_matkul',
+        'tahun_kurikulum',
         'nama_matkul',
         'jumlah_sks',
     ];
+
+    protected $primaryKey = 'kode_matkul';
+    const CREATED_AT = null;
+    const UPDATED_AT = null;
+
+    public $incrementing = false;
 }

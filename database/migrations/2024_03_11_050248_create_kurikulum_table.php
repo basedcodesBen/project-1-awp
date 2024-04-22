@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('kurikulum', function (Blueprint $table) {
             $table->string('tahun_kurikulum')->primary();
+            $table->timestamps();
         });
     }
 

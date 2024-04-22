@@ -13,7 +13,7 @@ class ProdiController extends Controller
     public function index()
     {
         $data = ProgramStudi::all();
-        return view("prodi.index", ['prodis' => $data]);
+        return view("layouts.prodi.index", ['prodis' => $data]);
     }
 
     /**
@@ -21,7 +21,7 @@ class ProdiController extends Controller
      */
     public function create()
     {
-        return view('prodi.create');
+        return view('layouts.prodi.create');
     }
 
     /**
@@ -56,7 +56,7 @@ class ProdiController extends Controller
      */
     public function edit(ProgramStudi $prodi)
     {
-        return view('prodi.edit', ['prodi'=>$prodi]);
+        return view('layouts.prodi.edit', ['prodi'=>$prodi]);
     }
 
     /**
