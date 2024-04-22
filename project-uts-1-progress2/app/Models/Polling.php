@@ -12,6 +12,7 @@ class Polling extends Model
     protected $table = 'polling';
 
     protected $fillable = [
+        'id_polling',
         'judul_polling',
         'tgl_mulai',
         'tgl_selesai',
@@ -20,10 +21,10 @@ class Polling extends Model
 
     protected $primaryKey = 'id_polling';
 
-    public function pollingDetails()
-    {
-        return $this->hasMany(PollingDetail::class, 'id_polling');
-    }
+    // public function pollingDetails()
+    // {
+    //     return $this->hasMany(PollingDetail::class, 'id_polling');
+    // }
 
     public function mataKuliah()
     {

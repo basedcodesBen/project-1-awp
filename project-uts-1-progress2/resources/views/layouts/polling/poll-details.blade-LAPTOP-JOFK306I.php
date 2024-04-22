@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="container-fluid">
                 <h1>{{ $poll->judul_polling }}</h1>
-                <form method="post" action="{{ route('poll.vote', $poll->id_polling) }}">
+                <form method="post" action="{{ route('poll.vote') }}">
                     @csrf
                     <input type="hidden" name="id_polling" value="{{ $poll->id_polling }}">
                     @foreach ($subjects as $subject)

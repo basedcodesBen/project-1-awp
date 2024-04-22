@@ -49,12 +49,6 @@
                   <p>Polling Tersedia</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
-                <a href="{{ route('poll.vote', $poll->id_polling) }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lakukan Polling</p>
-                </a>
-              </li> --}}
               <li class="nav-item">
                 <a href="{{ route('poll.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

@@ -45,8 +45,7 @@
                         </div>
                     @endforeach --}}
                     @foreach ($polls as $poll)
-                        <p>Poll dibuka dari {{ $poll->tgl_mulai }} sampai dengan {{ $poll->tgl_selesai }}<p>
-                        <a href="{{ route('poll.details', $poll->id_polling) }}" class="btn btn-block btn-primary btn-lg">{{ $poll->judul_polling }}</a>
+                        <h3><a href="{{ route('poll.details', $poll->id_polling) }}">{{ $poll->judul_polling }}</a></h3>
                     @endforeach
                 @else
                     <p>No polls available.</p>

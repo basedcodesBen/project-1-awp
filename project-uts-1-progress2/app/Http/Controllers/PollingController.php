@@ -36,11 +36,17 @@ class PollingController extends Controller
 
      public function showPoll()
      {
-         // Retrieve all polls
-         $polls = Polling::all();
+        //  // Retrieve all polls
+        //  $polls = Polling::all();
      
-         // Pass the polls data to the view
-         return View::make('layouts.polling.show', compact('polls'));
+        //  // Pass the polls data to the view
+        //  return View::make('layouts.polling.show', compact('polls'));
+        // Get active polls
+        $polls = Polling::where('tgl_mulai', '<=', now())
+            ->where('tgl_selesai', '>=', now())
+            ->get();
+
+        return view('layouts.polling.show', compact('polls'));
      }
 
      public function store(Request $request)
@@ -129,17 +135,18 @@ class PollingController extends Controller
         } else {
             // Display the form for students to fill out the polling
             $poll = Polling::find($id);
-            $matkul = MataKuliah::all(); // Assuming you have a Subject model
+            $matkul = MataKuliah::where('id_prodi', Auth::user()->id_prodi)
+                        ->where('jumlah_sks', '<=', 9) // Ensure weight limit
+                        ->get();
             return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
         
             // return view('layouts.polling.poll-details', compact('subjects', 'id', 'poll'));
         }
     }
 
-    public function vote(Request $request) {
+    public function vote(Request $request, $id) {
         // Validate the form data
         $validatedData = $request->validate([
-            'id_polling' => 'required',
             'selected_subjects' => 'required|array',
             'selected_subjects.*' => 'exists:mata_kuliah,kode_matkul',
         ]);
@@ -149,14 +156,15 @@ class PollingController extends Controller
     
         // Create a new poll detail record for each selected subject
         foreach ($validatedData['selected_subjects'] as $subjectCode) {
+            // dd($subjectCode);
             PollingDetail::create([
-                'id_polling' => $validatedData['id_polling'],
+                'id_polling' => $id,
                 'kode_matkul' => $subjectCode,
                 'nrp' => $userId, // Assuming 'nrp' is the field to store the user's ID
             ]);
         }
     
         // Redirect back to the polls page or show a success message
-        return redirect()->route('polls')->with('success', 'Your vote has been recorded successfully.');
+        return redirect()->route('poll.voteMenu')->with('success', 'Your vote has been recorded successfully.');
     }
 }

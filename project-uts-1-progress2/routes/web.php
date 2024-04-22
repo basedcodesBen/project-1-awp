@@ -52,8 +52,8 @@ Route::get('prodi-delete/{prodi}', [ProdiController::class, 'destroy'])->name('p
 // Route to display the poll to students
 Route::get('/poll', [PollingController::class, 'showPoll'])->name('poll.show');
 
-// Route to handle the voting process
-Route::post('/poll/vote', [PollingController::class, 'vote'])->name('poll.vote');
+// // Route to handle the voting process
+// Route::get('/poll/vote', [PollingController::class, 'vote'])->name('poll.vote');
 
 // Route to display the poll creation form
 Route::get('/poll/create', [PollingController::class, 'createForm'])->name('poll.create');
@@ -62,6 +62,9 @@ Route::get('/poll/create', [PollingController::class, 'createForm'])->name('poll
 Route::post('/poll/store', [PollingController::class, 'store'])->name('poll.store');
 
 Route::get('/poll/{id}', [PollingController::class, 'showPollDetails'])->name('poll.details');
-Route::post('/vote', [PollingController::class, 'vote'])->name('poll.vote');
+// Route::post('/vote/{id}', [PollingController::class, 'vote'])->name('poll.vote');
+
+Route::get('/polls/vote/{pollId}', [PollingController::class, 'voteForm'])->name('poll.voteForm');
+Route::post('/polls/vote', [PollingController::class, 'vote'])->name('poll.vote');
 
 require __DIR__.'/auth.php';
