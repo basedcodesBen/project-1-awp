@@ -45,8 +45,11 @@
                         </div>
                     @endforeach --}}
                     @foreach ($polls as $poll)
-                        <a href="{{ route('poll.details', $poll->id_polling) }}" class="btn btn-block btn-primary btn-lg">{{ $poll->judul_polling }}</a>
+                        <a href="{{ route('polls.results', $poll->id_polling) }}" class="btn btn-block btn-primary btn-lg">{{ $poll->judul_polling }}</a>
                     @endforeach
+                @else
+                    <p>No polls available.</p>
+                @endif
             </div><!-- /.container-fluid -->
         </div>
     </div>

@@ -51,8 +51,9 @@ Route::middleware('auth')->group(function () {
 // Route to display the poll to students
     Route::get('/poll', [PollingController::class, 'showPoll'])->name('poll.show');
 
-// Route to display the poll to prodi
-    Route::get('/poll/details', [PollingController::class, 'showPoll'])->name('poll.details.show');
+// Route to display the poll results to prodi
+    Route::get('polls/details', [PollingController::class, 'showProdi'])->name('poll.details.show');
+    Route::get('polls/{id_polling}/results', [PollingController::class, 'viewResults'])->name('polls.results');
 
 // Route to handle the voting process
     Route::post('/poll/vote', [PollingController::class, 'vote'])->name('poll.vote');
@@ -62,7 +63,6 @@ Route::middleware('auth')->group(function () {
 
 // Route to handle the submission of the poll creation form
     Route::post('/poll/store', [PollingController::class, 'store'])->name('poll.store');
-
     Route::get('/poll/{id}', [PollingController::class, 'showPollDetails'])->name('poll.details');
     Route::post('/vote', [PollingController::class, 'vote'])->name('poll.vote');
 

@@ -36,19 +36,16 @@ class PollingController extends Controller
 
      public function showPoll()
      {
-         // Retrieve all polls
-         $polls = Polling::all();
+         $polls = Polling::where('tgl_mulai', '<=', now())
+            ->where('tgl_selesai', '>=', now())
+            ->get();
 
-         // Pass the polls data to the view
-         return View::make('layouts.polling.show', compact('polls'));
+        return view('layouts.polling.show', compact('polls'));
      }
 
      public function store(Request $request)
      {
-         // Retrieve the authenticated user's nrp
-         $nrp = Auth::user()->nrp;
-
-         // Validate the form data
+        // Validate the form data
          $validatedData = $request->validate([
              'judul_polling' => 'required',
              'tgl_mulai' => 'required|date',
@@ -108,32 +105,77 @@ class PollingController extends Controller
         }
     }
 
-    // public function showPollDetails($id) {
-    //     $poll = Polling::find($id);
-    //     $matkul = MataKuliah::all(); // Assuming you have a Subject model
-    //     return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
-    // }
-
     public function showPollDetails($id)
     {
+        // $pollingDetail = PollingDetail::where('id_polling', $id)->first();
         $poll = Polling::find($id);
-        $pollingDetail = PollingDetail::where('id_polling', $id)->first();
+        $matkul = MataKuliah::where('id_prodi', Auth::user()->id_prodi)
+                        ->where('jumlah_sks', '<=', 9) // Ensure weight limit
+                        ->get();
+        return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
 
         // Check if the user is 'prodi' or 'admin'
-        if ($pollingDetail && Auth::user()->role === 'prodi') {
-            // Retrieve the choices of subjects based on the array of subject codes
-            $selectedSubjects = $pollingDetail->selected_subjects;
-            $subjects = MataKuliah::whereIn('kode_matkul', $selectedSubjects)->get();
+        // if ($pollingDetail && Auth::user()->role === 'prodi') {
+        //     $polls = Polling::all();
+        //     $pollingDetail = PollingDetail::where('id_polling', $id)->first();
+        //     // Retrieve the choices of subjects based on the array of subject codes
+        //     $selectedSubjects = $pollingDetail->selected_subjects;
+        //     $subjects = MataKuliah::whereIn('kode_matkul', $selectedSubjects)->get();
 
-            return view('layouts.polling.poll-details-prodi', compact('subjects', 'poll'));
-        } else {
-            // Display the form for students to fill out the polling
-            $poll = Polling::find($id);
-            $matkul = MataKuliah::all(); // Assuming you have a Subject model
-            return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
+        //     return view('layouts.polling.poll-details-prodi', compact('subjects', 'poll'));
+        // } else {
+        //     // Display the form for students to fill out the polling
+        //     $poll = Polling::find($id);
+        //     $matkul = MataKuliah::all(); // Assuming you have a Subject model
+        //     return view('layouts.polling.poll-details', ['poll' => $poll, 'subjects' => $matkul]);
 
-            // return view('layouts.polling.poll-details', compact('subjects', 'id', 'poll'));
-        }
+        //     return view('layouts.polling.poll-details', compact('subjects', 'id', 'poll'));
+        // }
+    }
+
+    public function showProdi()
+    {
+        $polls = Polling::all();
+
+        return view('layouts.polling.showdetails', compact('polls'));
+    }
+
+    public function viewResults($id_polling)
+    {
+        // // Query the polling details for the specified id_polling
+        // $pollingDetails = PollingDetail::where('id_polling', $id_polling)->get();
+        
+        // // Count the number of votes for each subject
+        // $voteCounts = $pollingDetails->groupBy('kode_matkul')->map->count();
+
+        // // Get a list of students and their voted subjects
+        // $studentVotes = $pollingDetails->groupBy('nrp')->map(function ($votes) {
+        //     return $votes->pluck('kode_matkul')->toArray();
+        // });
+
+        // return view('layouts.polling.poll-details-prodi', compact('voteCounts', 'studentVotes'));
+
+        // Get the id_prodi of the authenticated prodi user
+        $id_prodi = Auth::user()->id_prodi;
+
+        // Query the polling details for the specified id_polling and the subjects associated with the id_prodi
+        $pollingDetails = PollingDetail::where('id_polling', $id_polling)
+            ->whereIn('kode_matkul', function ($query) use ($id_prodi) {
+                $query->select('kode_matkul')
+                    ->from('mata_kuliah')
+                    ->where('id_prodi', $id_prodi);
+            })
+            ->get();
+
+        // Count the number of votes for each subject
+        $voteCounts = $pollingDetails->groupBy('kode_matkul')->map->count();
+
+        // Get a list of students and their voted subjects
+        $studentVotes = $pollingDetails->groupBy('nrp')->map(function ($votes) {
+            return $votes->pluck('kode_matkul')->toArray();
+        });
+
+        return view('layouts.polling.poll-details-prodi', compact('voteCounts', 'studentVotes'));
     }
 
     public function vote(Request $request) {
@@ -146,6 +188,14 @@ class PollingController extends Controller
 
         // Retrieve the user's ID
         $userId = Auth::user()->nrp;
+
+        $pollDet = PollingDetail::all();
+
+        foreach ($pollDet as $pd){
+            if ($userId == $pd->nrp){
+                return redirect()->back()->with('error', 'Anda sudah melakukan polling!');
+            }
+        }
 
         // Create a new poll detail record for each selected subject
         foreach ($validatedData['selected_subjects'] as $subjectCode) {
