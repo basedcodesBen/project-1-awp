@@ -142,19 +142,6 @@ class PollingController extends Controller
 
     public function viewResults($id_polling)
     {
-        // // Query the polling details for the specified id_polling
-        // $pollingDetails = PollingDetail::where('id_polling', $id_polling)->get();
-        
-        // // Count the number of votes for each subject
-        // $voteCounts = $pollingDetails->groupBy('kode_matkul')->map->count();
-
-        // // Get a list of students and their voted subjects
-        // $studentVotes = $pollingDetails->groupBy('nrp')->map(function ($votes) {
-        //     return $votes->pluck('kode_matkul')->toArray();
-        // });
-
-        // return view('layouts.polling.poll-details-prodi', compact('voteCounts', 'studentVotes'));
-
         // Get the id_prodi of the authenticated prodi user
         $id_prodi = Auth::user()->id_prodi;
 
@@ -175,7 +162,15 @@ class PollingController extends Controller
             return $votes->pluck('kode_matkul')->toArray();
         });
 
-        return view('layouts.polling.poll-details-prodi', compact('voteCounts', 'studentVotes'));
+        // Get the names of subjects based on their kode_matkul
+        $subjectNames = MataKuliah::whereIn('kode_matkul', $pollingDetails->pluck('kode_matkul')->unique())
+            ->pluck('nama_matkul', 'kode_matkul');
+
+        // Get the names of students based on their nrp
+        $studentNames = User::whereIn('nrp', $pollingDetails->pluck('nrp')->unique())
+            ->pluck('name', 'nrp');
+
+        return view('layouts.polling.poll-details-prodi', compact('voteCounts', 'studentVotes', 'subjectNames', 'studentNames'));
     }
 
     public function vote(Request $request) {
@@ -185,27 +180,33 @@ class PollingController extends Controller
             'selected_subjects' => 'required|array',
             'selected_subjects.*' => 'exists:mata_kuliah,kode_matkul',
         ]);
-
+    
         // Retrieve the user's ID
         $userId = Auth::user()->nrp;
-
-        $pollDet = PollingDetail::all();
-
-        foreach ($pollDet as $pd){
-            if ($userId == $pd->nrp){
-                return redirect()->back()->with('error', 'Anda sudah melakukan polling!');
-            }
+    
+        // Check if the user has already voted
+        $pollDet = PollingDetail::where('nrp', $userId)->first();
+        if ($pollDet) {
+            return redirect()->back()->with('error', 'Anda sudah melakukan polling!');
         }
-
+    
+        // Calculate the total weight of selected subjects
+        $totalWeight = MataKuliah::whereIn('kode_matkul', $validatedData['selected_subjects'])->sum('jumlah_sks');
+    
+        // Check if the total weight exceeds the maximum limit
+        if ($totalWeight > 9) {
+            return redirect()->back()->with('error', 'Jumlah SKS tidak boleh melebihi 9.');
+        }
+    
         // Create a new poll detail record for each selected subject
         foreach ($validatedData['selected_subjects'] as $subjectCode) {
             PollingDetail::create([
                 'id_polling' => $validatedData['id_polling'],
                 'kode_matkul' => $subjectCode,
-                'nrp' => $userId, // Assuming 'nrp' is the field to store the user's ID
+                'nrp' => $userId,
             ]);
         }
-
+    
         // Redirect back to the polls page or show a success message
         return redirect()->route('poll.show')->with('success', 'Your vote has been recorded successfully.');
     }

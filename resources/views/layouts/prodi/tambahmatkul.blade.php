@@ -27,8 +27,15 @@
                             <input type="text" class="form-control" id="kodematkul"  name="kode_matkul"required>
                         </div>
                         <div class="mb-3">
+                            {{-- <label for="endDate" class="form-label">Tahun Kurikulum</label>
+                            <input type="text" class="form-control" id="tahunkurikulum"  name="tahun_kurikulum" required> --}}
                             <label for="endDate" class="form-label">Tahun Kurikulum</label>
-                            <input type="text" class="form-control" id="tahunkurikulum"  name="tahun_kurikulum" required>
+                            <select class="form-control" name="tahun_kurikulum" required>
+                                <option value="">Pilih Tahun Kurikulum</option>
+                                @foreach ($kurikulums as $kurikulum)
+                                  <option value="{{ $kurikulum->tahun_kurikulum }}">{{ $kurikulum->tahun_kurikulum }}</option>
+                                @endforeach
+                              </select>
                         </div>
                         <div class="mb-3">
                             <label for="courseName" class="form-label">Nama Matakuliah</label>
@@ -38,7 +45,7 @@
                             <label for="startDate" class="form-label">Jumlah SKS</label>
                             <input type="text" class="form-control" id="jumlahsks" name="jumlah_sks" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Tambah Matauliah</button>
+                        <button type="submit" class="btn btn-primary">Tambah Mata Kuliah</button>
                         <a href="{{route('matkul')}}" class="btn btn-danger float-right ">Exit</a>
                     </form>
                 </div>

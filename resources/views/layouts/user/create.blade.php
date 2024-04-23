@@ -55,8 +55,12 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="user-password">Password</label>
-                      <input type="text" class="form-control" id="user-password" placeholder="Password" name="password" required maxlength="10">
+                        <label for="user-password">Password</label>
+                        <input type="password" class="form-control" id="user-password" placeholder="Password" name="password" required maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="user-confirm-password">Confirm Password</label>
+                        <input type="password" class="form-control" id="user-confirm-password" placeholder="Confirm Password" name="password_confirmation" required maxlength="10">
                     </div>
                     <div class="form-group">
                       <label for="user-idrole">Email</label>

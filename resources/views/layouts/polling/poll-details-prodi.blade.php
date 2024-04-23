@@ -21,29 +21,34 @@
     <div class="content">
         <div class="container-fluid">
             <div class="container-fluid">
-                <div class="card-header">Polling Results</div>
-
+                <<div class="card-header">Polling Results</div>
                     <div class="card-body">
-                        <h5>Number of Votes for Each Subject:</h5>
+                        <h5>Jumlah Polling untuk masing-masing Mata Kuliah:</h5>
                         <ul>
                             @foreach ($voteCounts as $kode_matkul => $count)
-                                <li>{{ $kode_matkul }}: {{ $count }} votes</li>
+                                <li>{{ $kode_matkul }} - {{ $subjectNames[$kode_matkul] }}: {{ $count }} votes</li>
                             @endforeach
                         </ul>
-
-                        <h5>List of Students and Their Voted Subjects:</h5>
+                    
+                        <h5>Daftar Mahasiswa yang melakukan voting:</h5>
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Student NRP</th>
-                                    <th>Voted Subjects</th>
+                                    <th>NRP Mahasiswa</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Mata Kuliah yang dipilih</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($studentVotes as $nrp => $subjects)
                                     <tr>
-                                        <td>{{ $nrp }} </td>
-                                        <td>{{ implode(', ', $subjects) }}</td>
+                                        <td>{{ $nrp }}</td>
+                                        <td>{{ $studentNames[$nrp] }}</td>
+                                        <td>
+                                            @foreach ($subjects as $subject)
+                                                {{ $subject }} - {{ $subjectNames[$subject] }}<br>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

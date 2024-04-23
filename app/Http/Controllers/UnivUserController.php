@@ -34,16 +34,18 @@ class UnivUserController extends Controller
             'nrp' => 'required|string|max:7|unique:users',
             'role' => 'required|string|max:10',
             'id_prodi' => 'required|string|max:2|exists:program_studi,id_prodi',
-            'password' => 'required|string|max:10',
+            'password' => 'required|string|min:6|confirmed',
             'email'=> 'string|max:255',
             'name' => 'required|string|max:255',
         ], [
             'nrp.required' => 'NRP harus diisi!',
             'nrp.unique' => 'NRP sudah terdaftar, silakan diganti dengan nomor lain',
-            'role_required' => 'Role harus diisi!',
-            'id_prodi_required' => 'ID Prodi harus diisi!',
-            'password' => 'Password harus diisi!',
-            'name' => 'Nama harus diisi!',
+            'role.required' => 'Role harus diisi!',
+            'id_prodi.required' => 'ID Prodi harus diisi!',
+            'password.required' => 'Password harus diisi!',
+            'password.min' => 'Password minimal terdiri dari 6 karakter!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!',
+            'name.required' => 'Nama harus diisi!',
         ])->validate();
 
         // dd($validatedData);

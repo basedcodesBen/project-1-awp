@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MataKuliah;
 use App\Models\User;
+use App\Models\Kurikulum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,8 @@ class MatkulController extends Controller
     {
         $user = Auth::user();
         $data = $user->id_prodi;
-        return view('layouts.prodi.tambahmatkul',compact('data'));
+        $kurikulums = Kurikulum::all();
+        return view('layouts.prodi.tambahmatkul',compact('data', 'kurikulums'));
     }
     public function store(Request $request)
     {

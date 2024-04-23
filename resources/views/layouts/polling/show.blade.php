@@ -29,21 +29,6 @@
                 @endif
 
                 @if ($polls->isNotEmpty())
-                    {{-- @foreach ($polls as $poll)
-                        <div class="poll-item">
-                            <h3><a href="{{ route('poll.show', $poll->id_polling) }}">{{ $poll->judul_polling }}</a></h3>
-                            <form method="post" action="{{ route('poll.vote') }}">
-                                @csrf
-                                <input type="hidden" name="id_polling" value="{{ $poll->id_polling }}">
-                                <select name="kode_matkul[]" multiple>
-                                    @foreach ($poll->mataKuliah as $matkul)
-                                        <option value="{{ $matkul->kode_matkul }}">{{ $matkul->nama_matkul }}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit">Vote</button>
-                            </form>
-                        </div>
-                    @endforeach --}}
                     @foreach ($polls as $poll)
                         <a href="{{ route('poll.details', $poll->id_polling) }}" class="btn btn-block btn-primary btn-lg">{{ $poll->judul_polling }}</a>
                     @endforeach
