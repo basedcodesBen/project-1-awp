@@ -21,11 +21,35 @@
     <div class="content">
         <div class="container-fluid">
             <div class="container-fluid">
-                <h1>{{ $poll->judul_polling }}</h1>
-                <h2>Subjects chosen in this poll:</h2>
-                @foreach ($subjects as $subject)
-                    <p>{{ $subject->nama_matkul }}</p>
-                @endforeach
+                <div class="card-header">Polling Results</div>
+
+                    <div class="card-body">
+                        <h5>Number of Votes for Each Subject:</h5>
+                        <ul>
+                            @foreach ($voteCounts as $kode_matkul => $count)
+                                <li>{{ $kode_matkul }}: {{ $count }} votes</li>
+                            @endforeach
+                        </ul>
+
+                        <h5>List of Students and Their Voted Subjects:</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Student NRP</th>
+                                    <th>Voted Subjects</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($studentVotes as $nrp => $subjects)
+                                    <tr>
+                                        <td>{{ $nrp }} </td>
+                                        <td>{{ implode(', ', $subjects) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
         </div>
     </div>

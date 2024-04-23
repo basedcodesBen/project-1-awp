@@ -38,29 +38,29 @@
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Admin Pages
+                User Pages
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{ route('poll.show') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Polling Tersedia</p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
-                <a href="{{ route('poll.vote') }}" class="nav-link">
+                <a href="{{ route('poll.show') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lakukan Polling</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{ route('poll.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Buat Polling</p>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </li>
           {{-- <li class="nav-item">

@@ -21,6 +21,13 @@
     <div class="content">
         <div class="container-fluid">
             <div class="container-fluid">
+                @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                
                 <h1>{{ $poll->judul_polling }}</h1>
                 <form method="post" action="{{ route('poll.vote') }}">
                     @csrf
@@ -28,7 +35,7 @@
                     @foreach ($subjects as $subject)
                         <input type="checkbox" name="selected_subjects[]" value="{{ $subject->kode_matkul }}">{{ $subject->nama_matkul }}<br>
                     @endforeach
-                    <button type="submit">Vote</button>
+                    <button class="btn btn-primary" type="submit">Vote</button>
                 </form>
             </div><!-- /.container-fluid -->
         </div>
