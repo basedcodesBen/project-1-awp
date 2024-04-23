@@ -13,6 +13,7 @@ class MataKuliah extends Model
 
     protected $fillable = [
         'kode_matkul',
+        'id_prodi',
         'tahun_kurikulum',
         'nama_matkul',
         'jumlah_sks',

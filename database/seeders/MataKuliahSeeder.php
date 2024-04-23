@@ -15,6 +15,7 @@ class MataKuliahSeeder extends Seeder
     {
         DB::table('mata_kuliah')->insert([
             'kode_matkul' => "IN240",
+            'id_prodi'=> "72",
             'tahun_kurikulum' => '2020',
             'nama_matkul' => 'Pemrograman Web Lanjut',
             'jumlah_sks' => '4'
