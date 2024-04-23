@@ -21,6 +21,7 @@
                 <div class="col-md-6">
                     <form method="POST" action="{{ route('tambahmatkul.store') }}">
                         @csrf
+                        <input type="hidden" class="form-control" id="id_prodi" name="id_prodi" value="{{$data}}" required>
                         <div class="mb-3">
                             <label for="courseCode" class="form-label">Kode Matakuliah</label>
                             <input type="text" class="form-control" id="kodematkul"  name="kode_matkul"required>

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(ProgramStudi::class);
     }
+    public function hasRole($role)
+    {
+        // Logic to check if the user has the given role
+        return $this->role === $role;
+    }
 }

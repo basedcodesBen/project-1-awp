@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('mata_kuliah', function (Blueprint $table) {
             $table->string('kode_matkul')->primary();
+            $table->string('id_prodi');
+            $table->foreign('id_prodi')->references('id_prodi')->on('program_studi');
             $table->string('tahun_kurikulum');
             $table->foreign('tahun_kurikulum')->references('tahun_kurikulum')->on('kurikulum');
             $table->string('nama_matkul');

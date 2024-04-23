@@ -3,25 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\MataKuliah;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MatkulController extends Controller
 {
     public function index()
     {
         // Retrieve data from the database
-        $data = MataKuliah::all();
-
+        $user = Auth::user();
+        $prodi = $user->id_prodi;
+        $data = MataKuliah::where('id_prodi',$prodi)->get();
         // Pass data to the view
         return view('layouts.prodi.matkul', compact('data'));
     }
-    public function create(){
-        return view('layouts.prodi.tambahmatkul');
+    public function create()
+    {
+        $user = Auth::user();
+        $data = $user->id_prodi;
+        return view('layouts.prodi.tambahmatkul',compact('data'));
     }
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'kode_matkul' => 'required|string|max:255',
+            'id_prodi' => 'required|string|max:255',
             'tahun_kurikulum' => 'required|string|max:255',
             'nama_matkul' => 'required|string|max:255',
             'jumlah_sks' => 'required|integer|max:99999999999',
